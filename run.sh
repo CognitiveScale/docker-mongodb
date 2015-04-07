@@ -16,7 +16,12 @@ else
     sleep 1
   done
 
-  mongo --eval "rs.initiate()" &> /dev/null
+  # connect to one server and initiate the set
+  mongo localhost/admin  << 'EOF'
+  config = { _id: "rs0", members:[
+           { _id : 0, host : "localhost:27017" }]};
+  rs.initiate(config)
+EOF
 
   while [ `tail  /logs/create_replset.log 2> /dev/null | grep -c 'replSet PRIMARY'` -eq 0 ];
   do
