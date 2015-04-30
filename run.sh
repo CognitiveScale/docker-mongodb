@@ -28,7 +28,7 @@ EOF
     sleep 1
   done
 
-  kill $mongod_pid
+  mongod --dbpath $data --shutdown
 fi
 
 echo "starting mongodb..."
