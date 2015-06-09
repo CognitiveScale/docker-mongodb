@@ -4,10 +4,13 @@
 FROM c12e/debian
 MAINTAINER Cognitive Scale congnitivescale.com
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-  echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' > /etc/apt/sources.list.d/mongodb.list && \
+ENV MONGO_VER 3.0.3
+
+RUN apt-get install -y lsb-release && \
+  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
+  echo "deb http://repo.mongodb.org/apt/debian "$(lsb_release -sc)"/mongodb-org/3.0 main" | tee /etc/apt/sources.list.d/mongodb-org-3.0.list && \
   apt-get update && \
-  apt-get -y install mongodb-10gen && \
+  sudo apt-get install -y mongodb-org=$MONGO_VER mongodb-org-server=$MONGO_VER mongodb-org-shell=$MONGO_VER mongodb-org-mongos=$MONGO_VER mongodb-org-tools=$MONGO_VER
   mkdir -p /data /logs  && \
   apt-get -y autoremove && \
   apt-get autoclean && \
