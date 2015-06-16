@@ -20,7 +20,6 @@ ADD run.sh /run.sh
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
 EXPOSE 27017 28017
-VOLUME ["/data", "/logs"]
 
 CMD ["/usr/bin/supervisord"]
 
